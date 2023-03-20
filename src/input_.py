@@ -1,4 +1,5 @@
 import keyboard
+import pygame
 
 from gpiozero import Button
 
@@ -17,7 +18,7 @@ class Input(object):
 class GPIOInput(Input):
 
     def __init__(self, button: Button):
-        super(GPIOInput, self).__init__()
+        super().__init__()
         self.button = button
 
     def jump(self) -> bool:
@@ -34,4 +35,16 @@ class KeyboardInput(Input):
 
 
 class GeneralInput(Input):
-    ...
+    def __init__(self, button: Button):
+        super().__init__()
+        self.button = button
+
+    def jump(self) -> bool:
+        return bool(self.button.value)
+
+    def quit(self) -> bool:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return True
+
+        return False

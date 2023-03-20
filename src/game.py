@@ -27,13 +27,14 @@ class Game(object):
         self.pipes: list[Pipe] = list()
         self.input_: Input = input_
         self.output: Output = output
-        self.x_bounds: (int, int)
-        self.y_bounds: (int, int)
+        self.x_bounds: (int, int) = (-40, 40)
+        self.y_bounds: (int, int) = (-20, 20)
 
 
     #TODO: pos begrenzen
     def _bird_logic(self, delta: float) -> None:
         self.bird.update_position(delta)
+        self.bird.max(self.x_bounds, self.y_bounds)
 
         if self.input_.jump() and self.jump_available:
             self.bird.jump()
@@ -59,7 +60,7 @@ class Game(object):
                 return FrameResult.DEAD
 
         try:
-            if self.pipes[0].pos.x < -10:
+            if self.pipes[0].pos.x < self.x_bounds[0] or self.pipes[0].pos.x > self.x_bounds[1]:
                 self.pipes.pop(0)
         except IndexError:
             pass
@@ -71,6 +72,7 @@ class Game(object):
         result = self._pipe_logic(delta)
 
         self.output.render(self.bird, self.pipes)
+        print(self.bird.pos.y)
 
         return result
 
@@ -84,7 +86,7 @@ class Game(object):
         while running:
             delta = time.perf_counter() - last_frame
 
-            if delta > self.fps:
+            if delta > 1/self.fps:
                 self.frame += 1
                 frame_result: FrameResult = self.every_frame(delta)
                 last_frame = time.perf_counter()

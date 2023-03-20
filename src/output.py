@@ -17,7 +17,7 @@ class GPIOOutput(Output):
 
     def __init__(self, servo: AngularServo):
         super().__init__()
-        self.servo = servo
+        self.servo: AngularServo = servo
 
     def render(self, bird: GameObject, pipes: list[GameObject], *args) -> None:
         self.servo.angle = bird.pos.y * 9
@@ -29,9 +29,25 @@ class GraphicalOutput(Output):
     def __init__(self):
         super().__init__()
         pygame.init()
-        self.x = 800
-        self.y = 800
-        self.screen = pygame.display.set_mode((self.x, self.y))
+        self.screen = pygame.display.set_mode()
+        self.x, self.y = pygame.display.get_surface().get_size()
+        self.scale_coefficient = 1
+        self.offset = 0
+
+    def _object_to_display(self, x: float, y: float) -> (float, float):
+        return x + (self.x/2), y + (self.y/2)
+
+    def _display_to_pygame(self, x: float, y: float) -> (float, float):
+        return x, self.y - y
+
+    def _native_to_pygame(self, x: float, y: float) -> (float, float):
+        x, y = x * (self.y/40), y * (self.y/40)                         # scale up to y = y_display_max
+        x, y = x, y + self.offset                                       # apply offset
+        x, y = x * self.scale_coefficient, y * self.scale_coefficient   # apply user specified scale
+        x, y = self._object_to_display(x, y)                            # object to display
+        x, y = self._display_to_pygame(x, y)                            # display to pygame
+
+        return x, y
 
     def render(self, bird: GameObject, pipes: list[GameObject], *args) -> None:
         dx_game = self.y * 3/4
@@ -63,4 +79,8 @@ class GraphicalOutput(Output):
 
 
 class GeneralOutput(Output):
-    ...
+    
+    def __init__(self):
+        super().__init__()
+        pygame.init()
+
