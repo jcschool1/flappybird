@@ -71,8 +71,7 @@ class Game(object):
         self._bird_logic(delta)
         result = self._pipe_logic(delta)
 
-        self.output.render(self.bird, self.pipes)
-        print(self.bird.pos.y)
+        self.output.render(self.bird, self.pipes, self.score)
 
         return result
 
