@@ -23,7 +23,7 @@ class Game(object):
         self.frame: int = 0
         self.score: int = 0
         self.jump_available: bool = True
-        self.bird: Bird = Bird(-20)
+        self.bird: Bird = Bird(-30)
         self.pipes: list[Pipe] = list()
         self.input_: Input = input_
         self.output: Output = output
@@ -45,7 +45,7 @@ class Game(object):
             self.jump_available = True
 
     def _pipe_logic(self, delta: float) -> FrameResult:
-        if self.frame % (self.fps * 2) == 0:
+        if self.frame % int(self.fps * 2.5) == 0:
             self.pipes.append(Pipe())
 
         for pipe in self.pipes:
@@ -55,12 +55,12 @@ class Game(object):
                 pipe.pass_()
                 self.score += 1
 
-            if pipe.pos.x - 1 < self.bird.pos.x < pipe.pos.x + 1 and (
-                    self.bird.pos.y > pipe.pos.y + 1.5 or pipe.pos.y - 1.5 > self.bird.pos.y):
+            if pipe.pos.x - 2.5 < self.bird.pos.x < pipe.pos.x + 2.5 and (
+                    self.bird.pos.y > pipe.pos.y + 2.5 or pipe.pos.y - 2.5 > self.bird.pos.y):
                 return FrameResult.DEAD
 
         try:
-            if self.pipes[0].pos.x < self.x_bounds[0] or self.pipes[0].pos.x > self.x_bounds[1]:
+            if self.pipes[0].pos.x < self.x_bounds[0]:
                 self.pipes.pop(0)
         except IndexError:
             pass
@@ -72,6 +72,7 @@ class Game(object):
         result = self._pipe_logic(delta)
 
         self.output.render(self.bird, self.pipes, self.score)
+        print(self.score)
 
         return result
 

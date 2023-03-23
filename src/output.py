@@ -24,7 +24,6 @@ class GPIOOutput(Output):
         self.servo.angle = bird.pos.y * 9
 
 
-# TODO: Ausgabe Rechnungen
 class GraphicalOutput(Output):
 
     def __init__(self):
@@ -38,22 +37,17 @@ class GraphicalOutput(Output):
         self.offset = 0
         print(pygame.image.get_extended())
 
-        # self.sprite_bird = pygame.image.load(
-        #     os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'sprites', 'rainbow.png')).convert_alpha()
-        # self.sprite_pipe = pygame.image.load(
-        #     os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'sprites', 'pipe.png')).convert_alpha()
-
         self.sprite_bird = pygame.transform.scale(
             pygame.image.load(
                 os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'sprites', 'rainbow.png')
             ).convert_alpha(),
-            (200, 200))
+            (int(self.scale_coefficient * self.y / 12), int(self.scale_coefficient * self.y / 12)))
 
         self.sprite_pipe = pygame.transform.scale(
             pygame.image.load(
                 os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'sprites', 'pipe.png')
             ).convert_alpha(),
-            (int(self.y/12), self.y*1.5))
+            (int(self.scale_coefficient * self.y / 8), int(self.scale_coefficient * self.y * 2)))
 
     def _object_to_display(self, x: float, y: float) -> (float, float):
         return x + (self.x / 2), y + (self.y / 2)
@@ -101,13 +95,14 @@ class GraphicalOutput(Output):
         # pipes
         for pipe in pipes:
             sprite_pipe_x, sprite_pipe_y = self._native_to_pygame(pipe.pos.x, pipe.pos.y)
-            self.screen.blit(self.sprite_pipe, (sprite_pipe_x - self.sprite_pipe.get_size()[0] / 2, sprite_pipe_y - self.sprite_pipe.get_size()[1] / 2))
-
+            self.screen.blit(self.sprite_pipe, (
+            sprite_pipe_x - self.sprite_pipe.get_size()[0] / 2, sprite_pipe_y - self.sprite_pipe.get_size()[1] / 2))
 
         # bird
         # pygame.draw.circle(self.screen, (0, 255, 0), self._native_to_pygame(bird.pos.x, bird.pos.y), 30*self.scale_coefficient)
         sprite_bird_x, sprite_bird_y = self._native_to_pygame(bird.pos.x, bird.pos.y)
-        self.screen.blit(self.sprite_bird, (sprite_bird_x - self.sprite_bird.get_size()[0]/2, sprite_bird_y - self.sprite_bird.get_size()[1]/2))
+        self.screen.blit(self.sprite_bird, (
+        sprite_bird_x - self.sprite_bird.get_size()[0] / 2, sprite_bird_y - self.sprite_bird.get_size()[1] / 2))
 
         # score
         # font = pygame.freetype.Font("your_font.ttf", 24)
@@ -118,7 +113,8 @@ class GraphicalOutput(Output):
         blackbar_y = (self.y / 2) * (1 - self.scale_coefficient)
 
         pygame.draw.rect(self.screen, (0, 0, 0), (0, 0, blackbar_x, self.y))
-        pygame.draw.rect(self.screen, (0, 0, 0), (blackbar_x + self.y * (3 / 4) * self.scale_coefficient, 0, blackbar_x, self.y))
+        pygame.draw.rect(self.screen, (0, 0, 0),
+                         (blackbar_x + self.y * (3 / 4) * self.scale_coefficient, 0, blackbar_x, self.y))
         pygame.draw.rect(self.screen, (0, 0, 0), (0, 0, self.x, blackbar_y))
         pygame.draw.rect(self.screen, (0, 0, 0), (0, blackbar_y + self.y * self.scale_coefficient, self.x, blackbar_y))
 

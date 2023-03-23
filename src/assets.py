@@ -36,7 +36,7 @@ class GameObject(object):
 class Bird(GameObject):
 
     def __init__(self, acc_y: float):
-        super(Bird, self).__init__(acc=Vector(0, acc_y))
+        super(Bird, self).__init__(pos=Vector(-5, 0), acc=Vector(0, acc_y))
 
     def jump(self) -> None:
         self.vel.y = self.acc.y * -0.5

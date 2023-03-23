@@ -34,6 +34,17 @@ class KeyboardInput(Input):
         return keyboard.is_pressed("space")
 
 
+class PyGameInput(Input):
+
+    def __init__(self):
+        super(PyGameInput, self).__init__()
+
+    def jump(self) -> bool:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if pygame.key.name(event.key) == "space":
+                    return True
+
 class GeneralInput(Input):
     def __init__(self, button: Button):
         super().__init__()
