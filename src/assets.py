@@ -39,7 +39,7 @@ class Bird(GameObject):
         super(Bird, self).__init__(pos=Vector(-5, 0), acc=Vector(0, acc_y))
 
     def jump(self) -> None:
-        self.vel.y = self.acc.y * -0.5
+        self.vel.y = self.acc.y * -0.45
 
 
 class Pipe(GameObject):

@@ -23,7 +23,7 @@ class Game(object):
         self.frame: int = 0
         self.score: int = 0
         self.jump_available: bool = True
-        self.bird: Bird = Bird(-30)
+        self.bird: Bird = Bird(-50)
         self.pipes: list[Pipe] = list()
         self.input_: Input = input_
         self.output: Output = output
@@ -72,7 +72,6 @@ class Game(object):
         result = self._pipe_logic(delta)
 
         self.output.render(self.bird, self.pipes, self.score)
-        print(self.score)
 
         return result
 

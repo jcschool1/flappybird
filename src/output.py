@@ -49,6 +49,12 @@ class GraphicalOutput(Output):
             ).convert_alpha(),
             (int(self.scale_coefficient * self.y / 8), int(self.scale_coefficient * self.y * 2)))
 
+        self.sprite_floor = pygame.transform.scale(
+            pygame.image.load(
+                os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'sprites', 'floor.png')
+            ).convert_alpha(),
+            (int(self.scale_coefficient * self.y / 8), int(self.scale_coefficient * self.y * 2)))
+
     def _object_to_display(self, x: float, y: float) -> (float, float):
         return x + (self.x / 2), y + (self.y / 2)
 
@@ -91,6 +97,7 @@ class GraphicalOutput(Output):
         self.screen.fill((222, 222, 222))
 
         # floor
+
 
         # pipes
         for pipe in pipes:
