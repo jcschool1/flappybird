@@ -1,7 +1,6 @@
 import random
 
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass()
@@ -18,6 +17,7 @@ class GameObject(object):
         self.acc: Vector = acc
 
     def update_position(self, delta: float) -> None:
+        self.vel.x += self.acc.x * delta
         self.vel.y += self.acc.y * delta
         self.pos.x += self.vel.x * delta
         self.pos.y += self.vel.y * delta
