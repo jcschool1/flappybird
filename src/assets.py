@@ -33,13 +33,14 @@ class GameObject(object):
         if self.pos.y > y[1]:
             self.pos.y = y[1]
 
+
 class Bird(GameObject):
 
     def __init__(self, acc_y: float):
         super(Bird, self).__init__(pos=Vector(-5, 0), acc=Vector(0, acc_y))
 
     def jump(self) -> None:
-        self.vel.y = self.acc.y * -0.45
+        self.vel.y = 14
 
 
 class Pipe(GameObject):

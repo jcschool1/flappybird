@@ -11,6 +11,7 @@ class GameResult(Enum):
     DEAD = 1
     QUIT = 2
 
+
 class FrameResult(Enum):
     NONE = 0
     DEAD = 1
@@ -23,19 +24,15 @@ class Game(object):
         self.frame: int = 0
         self.score: int = 0
         self.jump_available: bool = True
-        self.bird: Bird = Bird(-50)
+        self.runtime_since_pipe: float = 0
+        self.bird: Bird = Bird(-20)
         self.pipes: list[Pipe] = list()
         self.input_: Input = input_
         self.output: Output = output
         self.x_bounds: (int, int) = (-40, 40)
         self.y_bounds: (int, int) = (-20, 20)
 
-
-    #TODO: pos begrenzen
     def _bird_logic(self, delta: float) -> None:
-        self.bird.update_position(delta)
-        self.bird.max(self.x_bounds, self.y_bounds)
-
         if self.input_.jump() and self.jump_available:
             self.bird.jump()
             self.jump_available = False
@@ -44,9 +41,16 @@ class Game(object):
         else:
             self.jump_available = True
 
+        self.bird.update_position(delta)
+        self.bird.max(self.x_bounds, (-15, 20))
+
     def _pipe_logic(self, delta: float) -> FrameResult:
-        if self.frame % int(self.fps * 2.5) == 0:
+        if self.runtime_since_pipe == 0:
             self.pipes.append(Pipe())
+
+        self.runtime_since_pipe += delta
+        if self.runtime_since_pipe > 3.5:
+            self.runtime_since_pipe = 0
 
         for pipe in self.pipes:
             pipe.update_position(delta)
@@ -87,8 +91,8 @@ class Game(object):
 
             if delta > 1/self.fps:
                 self.frame += 1
-                frame_result: FrameResult = self.every_frame(delta)
                 last_frame = time.perf_counter()
+                frame_result: FrameResult = self.every_frame(delta)
 
             if frame_result == FrameResult.DEAD:
                 result = GameResult.DEAD
@@ -99,5 +103,3 @@ class Game(object):
                 running = False
 
         return result
-
-

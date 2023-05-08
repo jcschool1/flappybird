@@ -1,11 +1,11 @@
 import game
 
-from output import GraphicalOutput
+from output import GeneralOutput
 from input_ import PyGameInput
 
 
 if __name__ == '__main__':
-    user_output = GraphicalOutput()
+    user_output = GeneralOutput(13)
     user_input = PyGameInput()
 
     running: bool = True
