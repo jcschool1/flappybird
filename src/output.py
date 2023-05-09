@@ -176,7 +176,7 @@ class GeneralOutput(Output):
 
     def __init__(self, servo_gpio: int):
         super().__init__()
-        servo = AngularServo(13, frame_width=0.02)
+        servo = AngularServo(servo_gpio, frame_width=0.02)
         self.gpio = GPIOOutput(servo)
         self.graphical = GraphicalOutput()
 
