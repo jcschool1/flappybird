@@ -17,4 +17,4 @@ if __name__ == '__main__':
             running = False
 
         if r == game.GameResult.DEAD:
-            print("player died")
+            pass

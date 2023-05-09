@@ -31,10 +31,10 @@ class GraphicalOutput(Output):
         pygame.init()
 
         pygame.display.set_caption('Flappy Bird')
-        self.screen = pygame.display.set_mode((800, 600))
+        self.screen = pygame.display.set_mode((300, 200))
         self.x, self.y = pygame.display.get_surface().get_size()
-        self.scale_coefficient = 0.5
-        self.offset = 100
+        self.scale_coefficient = 1
+        self.offset = 0
 
         self.sprite_bird = pygame.transform.scale(
             GraphicalOutput._load_sprite("bird.png"),
