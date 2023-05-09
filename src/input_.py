@@ -52,6 +52,10 @@ class PyGameInput(Input):
                 if pygame.key.name(event.key) == "space":
                     return True
 
+        for event in pygame.event.get(eventtype=pygame.MOUSEBUTTONDOWN):
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                return True
+
     def quit(self) -> bool:
         for event in pygame.event.get(eventtype=pygame.QUIT):
             if event.type == pygame.QUIT:
