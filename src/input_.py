@@ -47,13 +47,13 @@ class PyGameInput(Input):
         super(PyGameInput, self).__init__()
 
     def jump(self) -> bool:
-        for event in pygame.event.get(pygame.KEYDOWN):
+        for event in pygame.event.get(eventtype=pygame.KEYDOWN):
             if event.type == pygame.KEYDOWN:
                 if pygame.key.name(event.key) == "space":
                     return True
 
     def quit(self) -> bool:
-        for event in pygame.event.get():
+        for event in pygame.event.get(eventtype=pygame.QUIT):
             if event.type == pygame.QUIT:
                 return True
 
