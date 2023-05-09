@@ -52,6 +52,13 @@ class PyGameInput(Input):
                 if pygame.key.name(event.key) == "space":
                     return True
 
+    def quit(self) -> bool:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return True
+
+        return False
+
 class GeneralInput(Input):
     def __init__(self, button: Button):
         super().__init__()
