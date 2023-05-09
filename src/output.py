@@ -1,6 +1,6 @@
 import os
 import pygame
-from gpiozero import AngularServo
+from gpiozero import AngularServo, Factory
 
 from assets import GameObject
 
@@ -21,7 +21,7 @@ class GPIOOutput(Output):
         self.servo: AngularServo = servo
 
     def render(self, bird: GameObject, pipes: list[GameObject], score: int, *args) -> None:
-        self.servo.angle = -(bird.pos.y - 2) * 5
+        self.servo.angle = (bird.pos.y - 2) * 5
 
 
 class GraphicalOutput(Output):
